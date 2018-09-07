@@ -1,5 +1,3 @@
-# vue-componet-quickstart 
+# vue-chat-box
 
-用于开发vue组件的基础项目，用于在此基础上快速开发vue第三方组件
-
-支持typescript
+vue的聊天窗口组件
