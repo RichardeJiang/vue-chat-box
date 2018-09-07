@@ -4,11 +4,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './App.vue';
-import VueComponent from '../index';
+import ChatBox from '../index';
 import "../src/styles/layout.less";
 
 Vue.use(VueRouter);
-Vue.use(VueComponent);
+Vue.use(ChatBox);
 
 // 生成提示信息
 Vue.config.productionTip = false;
@@ -17,8 +17,8 @@ Vue.config.productionTip = false;
 const router = new VueRouter({
   routes: [
     {
-      path: '/simple-box',
-      component: () => import('./components/SimpleBox.vue')
+      path: '/chat-box',
+      component: () => import('./components/ChatBox.vue')
     }
   ]
 });

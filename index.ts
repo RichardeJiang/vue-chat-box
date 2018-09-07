@@ -1,23 +1,21 @@
-import SimpleBox from './src/components/simple-box'
+import Vue from 'vue'
+import SvgIcon from 'vue-svgicon'
+import ChatBox from './src/chat-box.vue'
+import "./src/styles/layout.less"
+import "./src/styles/common.less"
+// Default tag name is 'svgicon
+Vue.use(SvgIcon, {
+  tagName: 'svgicon'
+})
 
-const components = {
-  SimpleBox
+const install = (Vue, options) => {
+  Vue.component('chat-box', ChatBox);
+  console.log(options)
 }
 
-const install = (Vue) => {
-  Object.keys(components).forEach(key => {
-    Vue.component(key, components[key]);
-  });
-}
-
-const plugins = {
+export default {
   version: '0.0.1',
   install
 }
 
-const API = {
-  ...plugins,
-  ...components
-}
-
-export default API
+export { ChatBox }

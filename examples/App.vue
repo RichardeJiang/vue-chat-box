@@ -3,7 +3,7 @@
     <nav>
       <ul>
         <li>
-          <router-link to="/simple-box">SimpleBox</router-link>
+          <router-link to="/chat-box">ChatBox</router-link>
         </li>
       </ul>
     </nav>
