@@ -18,6 +18,7 @@ import MessageList from "./components/message-list.vue";
 import MessageInput from "./components/message-input.vue";
 import store from "~/store";
 import { IMessage } from "~/utils/interface";
+
 @Component({
   components: {
     SideBar,
@@ -34,6 +35,18 @@ export default class ChatBox extends Vue {
 
   public onReceiveMessage(msg: IMessage) {
     store.commit("addNewMessage", msg);
+  }
+
+  public updateUserList(list) {
+    store.dispatch("updateUserList", list);
+  }
+
+  public updateMessageList(list) {
+    store.dispatch("updateMessageList", list);
+  }
+
+  public updateUserId(id) {
+    store.dispatch("updateUserId", id);
   }
 }
 </script>

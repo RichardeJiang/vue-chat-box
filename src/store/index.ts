@@ -89,6 +89,26 @@ const store = new Vuex.Store({
     },
     updateChatId(state, id) {
       state.chatId = id
+    },
+    updateUserList(state, userList) {
+      state.userList = userList
+    },
+    updateMessageList(state, messageList) {
+      state.messageList = messageList
+    },
+    updateUserId(state, id) {
+      state.userId = id
+    }
+  },
+  actions: {
+    updateUserId({ commit }, id) {
+      commit('updateUserId', id)
+    },
+    updateUserList({ commit }, userList) {
+      commit('updateUserList', userList)
+    },
+    updateMessageList({ commit }, messageList) {
+      commit('updateMessageList', messageList)
     }
   }
 })
