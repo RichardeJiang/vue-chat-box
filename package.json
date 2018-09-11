@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "webpack --mode production --config build/webpack.dist.config.js",
-    "dev": "webpack-dev-server --mode development --content-base examples/ --open --inline --hot --compress --history-api-fallback  --host 0.0.0.0 --port 8081 --config build/webpack.dev.config.js",
+    "dev": "webpack-dev-server --mode development --content-base examples/ --open --inline --hot --compress --history-api-fallback --host 0.0.0.0 --port 8081 --config build/webpack.dev.config.js",
     "svg": "vsvg -s ./src/assets/icons -t ./src/icons --ext ts --es6"
   },
   "repository": {

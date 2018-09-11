@@ -18,10 +18,10 @@ export default class extends Vue {
   private text = "this is a demo for create component";
   private username = "user_" + Math.floor(Math.random() * 100 * 100);
   private stompClient: Stomp.Client;
-
+  // private sessionId;
+  private userList: any;
   created() {
     console.log("currentUserId", this.username);
-    
   }
 
   mounted() {
@@ -37,16 +37,19 @@ export default class extends Vue {
     }).then(() => {
       this.getOnlineUser();
       var socket = new SockJS(
-        "http://192.168.3.188:9999/im-webSocket?username=" +
-          encodeURIComponent(this.username),
+        "http://192.168.3.188:9999/im-webSocket?username=" + encodeURIComponent(this.username),
         "",
         {
           sessionId: 32
         }
       );
+      // let matchs = /\/([^\/]+)\/websocket/.exec(socket._transport.url);
+      // if (matchs) {
+      //   this.sessionId = matchs[1];
+      // }
       this.stompClient = Stomp.over(socket);
       this.stompClient.debug = () => {};
-      this.stompClient.connect({}, frame => {
+      this.stompClient.connect(this.username, "", frame => {
         this.stompClient.subscribe(
           "/user/topic/private",
           this.receiveMessage.bind(this)
@@ -68,7 +71,8 @@ export default class extends Vue {
       users.filter(user => user.userId !== this.username).forEach(user => {
         userList[user.userId] = {
           username: user.userId,
-          userphoto: "@/assets/images/avator.png"
+          userphoto: "@/assets/images/avator.png",
+          sessionId: user.sessionId
         };
       });
 
@@ -85,7 +89,8 @@ export default class extends Vue {
       });
       chatBox.updateMessageList(messageList);
 
-      chatBox.updateUserId(this.username)
+      chatBox.updateUserId(this.username);
+      this.userList = userList;
     });
   }
   private onInit() {}
@@ -94,15 +99,15 @@ export default class extends Vue {
    * 发送消息处理
    */
   private onSendMessage(msg) {
-    console.log({
-      sender: msg.sender,
-      content: msg.content,
-      receiver: msg.receiver
-    });
+    let receiver: any =
+      Object.entries(this.userList).find(
+        ([key, value]) => key === msg.receiver
+      ) || {};
     this.stompClient.send(
       "/app/private",
       {},
       JSON.stringify({
+        sessionId: receiver.sessionId,
         sender: msg.sender,
         content: msg.content,
         receiver: msg.receiver
