@@ -1,7 +1,7 @@
 export interface IMessage {
-  chatId?: number;
-  sender: number;
-  receiver: number;
+  chatId?: any;
+  sender: number | string;
+  receiver: number | string;
   content: string;
   time?: number;
 }

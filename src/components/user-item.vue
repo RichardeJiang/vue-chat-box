@@ -1,13 +1,11 @@
 <template>
-  <div class="chat-item row between-span">
+  <div class="user-item row between-span">
     <div class="avator">
       <img src="@/assets/images/avator.png" />
     </div>
-    <div class="content col-span  col-span center-span">
+    <div class="content col col-span center-span">
       <div class="user">{{data.username}}</div>
-      <div class="message">{{data.content}}</div>
     </div>
-    <div class="time">{{data.time|dateFormat('yy/MM/dd')}}</div>
   </div>
 </template>
 <script lang="ts">
@@ -28,7 +26,7 @@ export default class ChatItem extends Vue {
 </script>
 
 <style lang="less" scoped>
-.chat-item {
+.user-item {
   padding: 10px;
   .avator img {
     width: 40px;
@@ -36,6 +34,7 @@ export default class ChatItem extends Vue {
   }
   .content {
     padding: 0 10px;
+    
     div {
       text-align: left;
       overflow: hidden;

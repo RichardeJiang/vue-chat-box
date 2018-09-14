@@ -31,3 +31,4 @@ node_modules
 # Dev directory
 examples
 src
+typings

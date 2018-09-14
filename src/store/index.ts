@@ -3,64 +3,27 @@ import Vuex, { mapActions } from 'vuex'
 
 Vue.use(Vuex)
 
+
 const store = new Vuex.Store({
   state: {
-    userId: 1,
-    chatId: 2,
-    userList: {
-      1: {
-        username: 'test1',
-        userphoto: '@/assets/images/avator.png'
-      },
-      2: {
-        username: 'test2',
-        userphoto: '@/assets/images/avator.png'
-      },
-      3: {
-        username: 'test3',
-        userphoto: '@/assets/images/avator.png'
-      }
-    },
-    messageList: {
-      2: [{
-        content: "sadasdad ",
-        sender: 1,
-        time: 1536300301246
-      }, {
-        content: "sad",
-        sender: 2,
-        time: 1536300303246
-      }, {
-        content: "sads",
-        sender: 2,
-        time: 1536300305546
-      }],
-      3: [{
-        content: "sadasdad ",
-        sender: 3,
-        time: 1536300305126
-      }, {
-        content: "sad",
-        sender: 1,
-        time: 1536300305246
-      }, {
-        content: "zaasdasdasd",
-        sender: 3,
-        time: 1536300305556
-      }]
-    }
+    panel: 'chat',
+    userId: -1,
+    chatId: -1,
+    userList: [],
+    messageList: []
   },
   getters: {
     chatList(state) {
-      if (Object.keys(state.messageList).length <= 0) {
-        return []
-      }
+      return (state.messageList as Array<any>)
+        .filter(({ id }) => id !== state.userId)
+        .map(({ id, messages }) => {
+          let last = {} as any
 
-      return Object.keys(state.messageList)
-        .map(id => {
-          let messages = state.messageList[id]
-          let last = messages[messages.length - 1]
-          return Object.assign({}, state.userList[id], {
+          if (messages.length > 0) {
+            last = messages[messages.length - 1]
+          }
+
+          return Object.assign({}, state.userList.find((x: any) => x.id === id), {
             id: id,
             time: last.time,
             content: last.content
@@ -68,26 +31,47 @@ const store = new Vuex.Store({
         })
     },
     currentMessage(state) {
-      if (!state.chatId) {
-        return []
-      }
+      let currentChat = state.messageList.find((x: any) => x.id === state.chatId) as any
 
-      return state.messageList[state.chatId]
+      if (!currentChat) {
+        return []
+      } else {
+        return currentChat.messages
+      }
     },
     currentChatUser(state) {
-      return state.userList[state.chatId] || {}
+      return state.userList.find((x: any) => x.id === state.chatId) || {}
     }
   },
   mutations: {
+    updatePanel(state, panel: 'user' | 'chat') {
+      state.panel = panel
+    },
     addNewMessage(state, msg) {
       let chatId = msg.chatId || msg.sender
-      if (!state.messageList[chatId]) {
-        state.messageList[chatId] = []
+
+      let currentChat = state.messageList.find((x: any) => x.id === chatId) as any
+
+      if (!currentChat) {
+        (state.messageList as Array<any>).push({
+          id: chatId,
+          messages: [msg]
+        })
+      } else {
+        currentChat.messages.push(msg)
       }
-      let currentMessage = state.messageList[chatId] as Array<any>
-      currentMessage.push(msg)
+
+
+
     },
     updateChatId(state, id) {
+      let targetChat = state.messageList.find((x: any) => x.id === id)
+      if (!targetChat) {
+        (state.messageList as Array<any>).unshift({
+          id,
+          messages: []
+        })
+      }
       state.chatId = id
     },
     updateUserList(state, userList) {

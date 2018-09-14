@@ -38,7 +38,7 @@ import store from "~/store";
     }
   }
 })
-export default class MessageInput extends Vue {
+export default class MessageList extends Vue {
   private username = "test";
   private get userId() {
     return store.state.userId;

@@ -20,7 +20,7 @@ import store from "~/store";
     ChatItem
   }
 })
-export default class MessageInput extends Vue {
+export default class ChatList extends Vue {
   get chatId() {
     return store.state.chatId;
   }
